@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compléments sur la dérivation — Terminale Spécialité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Karla:wght@300;400;500;600&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root {
+  --bg:     #13151a;
+  --bg2:    #191c23;
+  --bg3:    #1f2330;
+  --card:   #1d2028;
+  --card2:  #252a38;
+  --orange: #e86820;
+  --orange2:#f59040;
+  --orange3:#3a1c08;
+  --cyan:   #20c0b0;
+  --cyan2:  #0a3530;
+  --yellow: #d8b020;
+  --yellow2:#2c2408;
+  --green:  #50c878;
+  --green2: #0d2818;
+  --red:    #e04040;
+  --red2:   #2c0e0e;
+  --violet: #9070e0;
+  --violet2:#1e1535;
+  --border: #2c3040;
+  --ink:    #e8e4dc;
+  --ink2:   #a8a49c;
+  --ink3:   #5a5860;
+  --sh:     0 2px 12px rgba(0,0,0,0.4);
+  --sh2:    0 6px 32px rgba(0,0,0,0.5);
+  --r: 8px;
+  --font-h: 'Barlow Condensed', 'Impact', sans-serif;
+  --font-b: 'Karla', sans-serif;
+  --font-m: 'Source Code Pro', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.72;
+  background-image:
+    linear-gradient(rgba(232,104,32,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,104,32,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  padding: 3.8rem 2rem 3rem;
+  text-align: center; position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,104,32,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+header::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--orange), var(--orange2), var(--orange), transparent);
+}
+.badge {
+  display: inline-block;
+  font-family: var(--font-m); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid var(--orange3); border-radius: 2px;
+  padding: 0.28em 1em; margin-bottom: 1.3rem;
+  background: rgba(232,104,32,0.07);
+}
+h1 {
+  font-family: var(--font-h);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 800; line-height: 1.0; letter-spacing: 0.02em;
+  text-transform: uppercase; color: var(--ink);
+}
+h1 em { font-style: normal; color: var(--orange2); }
+.subtitle { font-size: 0.94rem; color: var(--ink3); margin-top: 0.75rem; letter-spacing: 0.02em; }
+.official-link {
+  display: inline-flex; align-items: center; gap: 0.45em;
+  margin-top: 1.2rem; font-family: var(--font-m); font-size: 0.73rem;
+  color: var(--cyan); text-decoration: none;
+  border-bottom: 1px dashed rgba(32,192,176,0.35); padding-bottom: 1px; transition: color 0.2s;
+}
+.official-link:hover { color: #80e8e0; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(19,21,26,0.97); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-inner { display: flex; padding: 0 1rem; min-width: max-content; }
+nav a {
+  display: flex; align-items: center; gap: 0.38em;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--font-m); font-size: 0.63rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink3); text-decoration: none;
+  border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s;
+}
+nav a:hover, nav a.active { color: var(--orange2); border-color: var(--orange); }
+.nav-num { font-size: 0.5rem; opacity: 0.35; }
+
+/* ── MAIN ── */
+main { max-width: 940px; margin: 0 auto; padding: 0 1.5rem 7rem; }
+section { padding-top: 5rem; opacity: 0; transform: translateY(16px); transition: opacity 0.5s, transform 0.5s; }
+section.visible { opacity: 1; transform: none; }
+
+.sec-hd {
+  display: flex; align-items: baseline; gap: 1.1rem;
+  margin-bottom: 2rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-hd::after { content: ''; display: block; flex: 1; height: 1px; background: linear-gradient(90deg, var(--orange), transparent); margin-bottom: -0.75rem; position: absolute; bottom: 0; left: 0; width: 80px; }
+.sec-num { font-family: var(--font-m); font-size: 0.57rem; color: var(--orange); letter-spacing: 0.12em; flex-shrink: 0; }
+h2 { font-family: var(--font-h); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); }
+h3 { font-family: var(--font-h); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange2); margin: 2rem 0 0.65rem; }
+p { margin-bottom: 0.9rem; color: var(--ink2); }
+li { margin-bottom: 0.3rem; color: var(--ink2); }
+
+/* ── BLOCKS ── */
+.block {
+  border-left: 3px solid; border-radius: 0 var(--r) var(--r) 0;
+  padding: 1.1rem 1.4rem; margin: 1.1rem 0; position: relative;
+}
+.block::before {
+  content: attr(data-label);
+  position: absolute; top: -0.6rem; left: 1rem;
+  font-family: var(--font-m); font-size: 0.52rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.17em 0.58em; border-radius: 2px;
+}
+.block.def  { border-color: var(--orange);  background: rgba(232,104,32,0.07); }
+.block.def::before  { background: var(--orange); color: var(--bg); }
+.block.thm  { border-color: var(--cyan);    background: var(--cyan2); }
+.block.thm::before  { background: var(--cyan); color: var(--bg); }
+.block.demo { border-color: var(--violet);  background: var(--violet2); }
+.block.demo::before { background: var(--violet); color: #fff; }
+.block.cap  { border-color: var(--yellow);  background: var(--yellow2); }
+.block.cap::before  { background: var(--yellow); color: var(--bg); }
+.block.warn { border-color: var(--red);     background: var(--red2); }
+.block.warn::before { background: var(--red); color: #fff; }
+
+details { margin: 0.8rem 0; }
+summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-m); font-size: 0.75rem; font-weight: 600;
+  color: var(--violet); padding: 0.44rem 0; user-select: none; transition: color 0.2s;
+}
+summary:hover { color: var(--orange2); }
+summary::before { content: '▶'; font-size: 0.52rem; transition: transform 0.2s; }
+details[open] summary::before { transform: rotate(90deg); }
+.proof-body { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem 1.4rem; margin-top: 0.4rem; font-size: 0.9rem; color: var(--ink2); }
+
+/* ── TABLES ── */
+.tbl-w { overflow-x: auto; margin: 1rem 0; border-radius: var(--r); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+thead tr { background: var(--bg3); }
+th { padding: 0.65rem 0.9rem; font-family: var(--font-m); font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); font-weight: 600; text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--ink2); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* ── GRAPH ── */
+.graph-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin: 1.2rem 0; box-shadow: var(--sh2); }
+.graph-bar {
+  background: var(--bg3); padding: 0.5rem 1rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-m); font-size: 0.58rem; color: var(--ink3); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.graph-bar label { display: flex; align-items: center; gap: 0.35rem; font-size: 0.65rem; color: var(--ink2); }
+.graph-bar input, .graph-bar select {
+  font-family: var(--font-m); font-size: 0.7rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 3px; padding: 0.15rem 0.35rem; color: var(--ink);
+}
+.graph-bar input[type=number] { width: 62px; }
+canvas.graph { display: block; width: 100%; height: 300px; background: var(--card); }
+
+/* ── CALC ── */
+.calc {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1.3rem 1.5rem; margin: 1.2rem 0; box-shadow: var(--sh);
+}
+.calc-title {
+  font-family: var(--font-m); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5em;
+}
+.calc-title::before { content: '◈'; }
+.controls { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; margin-bottom: 0.8rem; }
+.controls label { font-size: 0.82rem; color: var(--ink2); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-m); }
+.controls input, .controls select {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
+  color: var(--ink); padding: 0.27rem 0.44rem; font-family: var(--font-m); font-size: 0.82rem;
+  transition: border-color 0.15s;
+}
+.controls input[type=number] { width: 72px; }
+.controls select { width: auto; }
+.controls input:focus, .controls select:focus { outline: none; border-color: var(--orange); }
+.result-box {
+  background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem;
+  font-family: var(--font-m); font-size: 0.84rem; color: var(--orange2);
+  border: 1px solid var(--border); margin-top: 0.5rem; min-height: 2.4rem; line-height: 1.6;
+}
+
+/* ── PYTHON ── */
+.py-block { background: #0d0f14; border: 1px solid #1c1f2e; border-radius: var(--r); margin: 1.2rem 0; overflow: hidden; box-shadow: var(--sh2); }
+.py-hd { background: #090b10; display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 1rem; border-bottom: 1px solid #1c1f2e; flex-wrap: wrap; gap: 0.4rem; }
+.py-dots { display: flex; gap: 5px; }
+.py-dot { width: 9px; height: 9px; border-radius: 50%; }
+.py-dot.r{background:#ff5f57;} .py-dot.y{background:#febc2e;} .py-dot.g{background:#28c840;}
+.py-meta { display: flex; align-items: center; gap: 0.5rem; margin-left: 0.5rem; }
+.py-title { font-family: var(--font-m); font-size: 0.7rem; color: #404870; }
+.py-badge { font-family: var(--font-m); font-size: 0.55rem; color: #303458; border: 1px solid #1c1f2e; border-radius: 2px; padding: 0.12em 0.45em; text-transform: uppercase; letter-spacing: 0.07em; }
+.py-acts { display: flex; gap: 0.35rem; }
+.btn-run { background: rgba(40,200,64,0.12); color: #28c840; border: 1px solid rgba(40,200,64,0.28); border-radius: 4px; padding: 0.26rem 0.62rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-run:hover { background: rgba(40,200,64,0.24); }
+.btn-dl  { background: rgba(232,104,32,0.1); color: var(--orange2); border: 1px solid rgba(232,104,32,0.25); border-radius: 4px; padding: 0.26rem 0.62rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-dl:hover  { background: rgba(232,104,32,0.22); }
+.btn-rst { background: rgba(255,95,87,0.1); color: #ff5f57; border: 1px solid rgba(255,95,87,0.25); border-radius: 4px; padding: 0.26rem 0.62rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-rst:hover { background: rgba(255,95,87,0.22); }
+textarea.py-code { display: block; width: 100%; background: transparent; border: none; outline: none; color: #cdd6f4; font-family: var(--font-m); font-size: 0.8rem; line-height: 1.65; padding: 1rem 1.2rem; resize: vertical; min-height: 175px; tab-size: 4; white-space: pre; overflow-x: auto; }
+.py-out { border-top: 1px solid #1c1f2e; padding: 0.75rem 1.2rem; font-family: var(--font-m); font-size: 0.78rem; color: #a6e3a1; min-height: 2.3rem; white-space: pre-wrap; display: none; }
+.py-out.active { display: block; }
+.py-out.error  { color: #f38ba8; }
+
+/* ── QCM ── */
+.qcm-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.4rem; }
+.chrono { display: flex; align-items: center; gap: 0.65rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 0.44rem 0.9rem; box-shadow: var(--sh); }
+.chrono-d { font-family: var(--font-m); font-size: 1rem; font-weight: 600; color: var(--orange); min-width: 4ch; }
+.score-v { font-family: var(--font-m); font-weight: 700; color: var(--cyan); }
+.qcm-q { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.3rem 1.5rem; margin-bottom: 1.1rem; box-shadow: var(--sh); transition: border-color 0.3s; }
+.qcm-q.correct { border-color: var(--green); background: var(--green2); }
+.qcm-q.wrong   { border-color: var(--red); background: var(--red2); }
+.qcm-question  { font-size: 0.93rem; font-weight: 600; color: var(--ink); margin-bottom: 0.9rem; font-family: var(--font-h); letter-spacing: 0.02em; }
+.qcm-opts { display: flex; flex-direction: column; gap: 0.44rem; }
+.qcm-opt { cursor: pointer; display: flex; align-items: center; gap: 0.65rem; padding: 0.54rem 0.85rem; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); font-size: 0.87rem; color: var(--ink2); transition: all 0.12s; }
+.qcm-opt:hover:not(.disabled) { background: var(--orange3); border-color: var(--orange); color: var(--orange2); }
+.qcm-opt.selected { background: var(--orange3); border-color: var(--orange); color: var(--orange2); }
+.qcm-opt.correct  { background: var(--green2); border-color: var(--green); color: var(--green); }
+.qcm-opt.wrong    { background: var(--red2);   border-color: var(--red);   color: var(--red); }
+.qcm-opt.disabled { pointer-events: none; }
+.opt-l { font-family: var(--font-m); font-size: 0.65rem; font-weight: 700; width: 1.5em; height: 1.5em; display: flex; align-items: center; justify-content: center; background: var(--border); border-radius: 3px; flex-shrink: 0; }
+.qcm-fb { margin-top: 0.65rem; font-size: 0.82rem; color: var(--ink2); padding: 0.5rem 0.75rem; border-radius: 5px; background: var(--bg3); display: none; font-style: italic; }
+.qcm-fb.active { display: block; }
+.qcm-acts { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+.btn-p { cursor: pointer; background: var(--orange); color: var(--bg); border: none; border-radius: 6px; padding: 0.6rem 1.4rem; font-family: var(--font-m); font-size: 0.77rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.15s, transform 0.1s; }
+.btn-p:hover { background: var(--orange2); transform: translateY(-1px); }
+.btn-s { cursor: pointer; background: var(--card); color: var(--ink2); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 1.2rem; font-family: var(--font-m); font-size: 0.77rem; transition: background 0.15s; }
+.btn-s:hover { background: var(--bg3); }
+.qcm-res { background: var(--orange3); border: 1px solid var(--orange); border-radius: var(--r); padding: 1.5rem; text-align: center; display: none; margin-top: 1.4rem; }
+.qcm-res.active { display: block; }
+.res-sc  { font-family: var(--font-h); font-size: 2.6rem; font-weight: 800; letter-spacing: 0.05em; color: var(--orange2); }
+.res-msg { color: var(--ink2); margin-top: 0.5rem; font-family: var(--font-m); font-size: 0.82rem; }
+
+/* ── CONTACT ── */
+.cg { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+.cc { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.3rem; text-align: center; text-decoration: none; display: block; box-shadow: var(--sh); transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+.cc:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: var(--sh2); }
+.cc img { width: 100px; height: 100px; border-radius: 6px; margin-bottom: 0.75rem; }
+.cc-t { font-size: 0.88rem; font-weight: 700; font-family: var(--font-h); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.25rem; }
+.cc-s { font-size: 0.76rem; color: var(--ink3); }
+.cc-l { font-size: 0.72rem; font-family: var(--font-m); color: var(--orange); margin-top: 0.4rem; display: block; }
+
+#py-status { position: fixed; bottom: 1.2rem; right: 1.2rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 0.42rem 0.85rem; font-family: var(--font-m); font-size: 0.67rem; color: var(--ink3); z-index: 200; box-shadow: var(--sh); transition: opacity 0.5s; }
+#py-status.ready  { color: var(--green); }
+#py-status.hidden { opacity: 0; pointer-events: none; }
+.hl   { color: var(--orange2); font-weight: 600; }
+.hl-c { color: var(--cyan);    font-weight: 600; }
+.hl-g { color: var(--green);   font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="py-status">⏳ Python — en attente</div>
+
+<header>
+  <div class="badge">Terminale · Spécialité Mathématiques · Analyse</div>
+  <h1>Compléments sur la <em>Dérivation</em></h1>
+  <p class="subtitle">Dérivées des fonctions composées · Convexité · Dérivées successives · Extremums · Étude complète</p>
+  <a class="official-link"
+     href="https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf"
+     target="_blank" rel="noopener">📄 Programme officiel Éduscol — Spécialité Terminale (p. 12) ↗</a>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#programme"><span class="nav-num">01</span> Programme</a>
+    <a href="#rappels"><span class="nav-num">02</span> Rappels</a>
+    <a href="#composees"><span class="nav-num">03</span> Composées</a>
+    <a href="#convexite"><span class="nav-num">04</span> Convexité</a>
+    <a href="#etude"><span class="nav-num">05</span> Étude complète</a>
+    <a href="#demo"><span class="nav-num">06</span> Démos</a>
+    <a href="#python"><span class="nav-num">07</span> Python</a>
+    <a href="#qcm"><span class="nav-num">08</span> QCM</a>
+    <a href="#contact"><span class="nav-num">09</span> Contact</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════ 01 PROGRAMME ══════════ -->
+<section id="programme">
+  <div class="sec-hd"><span class="sec-num">01</span><h2>Programme &amp; capacités attendues</h2></div>
+
+  <div class="block cap" data-label="Contenus — programme p. 12">
+    <p>• Dérivée d'une composée \((g\circ f)'=f'\cdot(g'\circ f)\).</p>
+    <p>• Dérivées des fonctions \(x\mapsto u^n\), \(x\mapsto\sqrt{u}\), \(x\mapsto e^u\), \(x\mapsto\ln u\).</p>
+    <p>• Dérivée seconde. Convexité, concavité, point d'inflexion.</p>
+    <p style="margin:0">• Lien entre convexité et position de la courbe par rapport à ses tangentes.</p>
+  </div>
+
+  <div class="block cap" data-label="Capacités attendues">
+    <p>✦ Calculer la dérivée de fonctions composées en utilisant les formules appropriées.</p>
+    <p>✦ Calculer la dérivée seconde d'une fonction.</p>
+    <p>✦ Étudier la convexité d'une fonction à partir de sa dérivée seconde.</p>
+    <p>✦ Déterminer les points d'inflexion d'une courbe.</p>
+    <p style="margin:0">✦ Exploiter les résultats de convexité pour situer la courbe par rapport à ses tangentes ou cordes.</p>
+  </div>
+</section>
+
+<!-- ══════════ 02 RAPPELS ══════════ -->
+<section id="rappels">
+  <div class="sec-hd"><span class="sec-num">02</span><h2>Rappels de dérivation</h2></div>
+
+  <h3>Dérivées usuelles</h3>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>\(f(x)\)</th><th>\(f'(x)\)</th><th>Domaine</th></tr></thead>
+      <tbody>
+        <tr><td>\(k\) (constante)</td><td>\(0\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(x^n\) (\(n\in\mathbb{Z}\))</td><td>\(nx^{n-1}\)</td><td>\(\mathbb{R}\) ou \(\mathbb{R}^*\)</td></tr>
+        <tr><td>\(\sqrt{x}\)</td><td>\(\dfrac{1}{2\sqrt{x}}\)</td><td>\(\mathbb{R}^*_+\)</td></tr>
+        <tr><td>\(e^x\)</td><td>\(e^x\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(\ln x\)</td><td>\(\dfrac{1}{x}\)</td><td>\(\mathbb{R}^*_+\)</td></tr>
+        <tr><td>\(\sin x\)</td><td>\(\cos x\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(\cos x\)</td><td>\(-\sin x\)</td><td>\(\mathbb{R}\)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Règles de calcul</h3>
+  <div class="block thm" data-label="Règles fondamentales">
+    <p>• \((u+v)' = u'+v'\)</p>
+    <p>• \((ku)' = ku'\)</p>
+    <p>• \((uv)' = u'v+uv'\)</p>
+    <p style="margin:0">• \(\left(\dfrac{u}{v}\right)' = \dfrac{u'v-uv'}{v^2}\) (si \(v\neq 0\))</p>
+  </div>
+</section>
+
+<!-- ══════════ 03 FONCTIONS COMPOSÉES ══════════ -->
+<section id="composees">
+  <div class="sec-hd"><span class="sec-num">03</span><h2>Dérivées des fonctions composées</h2></div>
+
+  <h3>Règle générale de la chaîne</h3>
+  <div class="block def" data-label="Théorème — Règle de la chaîne">
+    Si \(f\) est dérivable en \(x\) et \(g\) est dérivable en \(f(x)\), alors \(g\circ f\) est dérivable en \(x\) et :
+    \[(g\circ f)'(x) = f'(x)\cdot g'(f(x))\]
+    Autrement dit : « dérivée de l'intérieur × dérivée de l'extérieur calculée en l'intérieur ».
+  </div>
+
+  <h3>Formules avec \(u = f(x)\)</h3>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Fonction</th><th>Dérivée</th><th>Conditions</th></tr></thead>
+      <tbody>
+        <tr><td>\(u^n\)</td><td>\(n\,u^{n-1}\cdot u'\)</td><td>\(n\in\mathbb{Z}\), \(u\neq 0\) si \(n<0\)</td></tr>
+        <tr><td>\(\sqrt{u}\)</td><td>\(\dfrac{u'}{2\sqrt{u}}\)</td><td>\(u>0\)</td></tr>
+        <tr><td>\(e^u\)</td><td>\(u'\cdot e^u\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(\ln u\)</td><td>\(\dfrac{u'}{u}\)</td><td>\(u>0\)</td></tr>
+        <tr><td>\(\sin u\)</td><td>\(u'\cdot\cos u\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(\cos u\)</td><td>\(-u'\cdot\sin u\)</td><td>\(\mathbb{R}\)</td></tr>
+        <tr><td>\(u^{\alpha}\) (\(\alpha\in\mathbb{R}\))</td><td>\(\alpha\,u^{\alpha-1}\cdot u'\)</td><td>\(u>0\)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details>
+    <summary>Démonstration — \((e^u)' = u' e^u\)</summary>
+    <div class="proof-body">
+      Soit \(h(x)=e^{u(x)}\). C'est la composée de \(u\) et de \(g:t\mapsto e^t\).<br>
+      \(g'(t)=e^t\), donc par la règle de la chaîne :<br><br>
+      \(h'(x) = u'(x)\cdot g'(u(x)) = u'(x)\cdot e^{u(x)}\) \(\blacksquare\)
+    </div>
+  </details>
+
+  <details>
+    <summary>Démonstration — \((\ln u)' = \frac{u'}{u}\)</summary>
+    <div class="proof-body">
+      Soit \(h(x)=\ln(u(x))\). Composée de \(u\) et de \(g:t\mapsto\ln t\) (\(t>0\)).<br>
+      \(g'(t)=\frac{1}{t}\), donc :<br><br>
+      \(h'(x) = u'(x)\cdot\frac{1}{u(x)} = \frac{u'(x)}{u(x)}\) \(\blacksquare\)
+    </div>
+  </details>
+
+  <h3>Exemples commentés</h3>
+  <div class="block def" data-label="Exemples">
+    <p>• \(f(x)=e^{x^2}\) : \(u=x^2\), \(u'=2x\) → \(f'(x)=2x\,e^{x^2}\)</p>
+    <p>• \(f(x)=\ln(3x+1)\) : \(u=3x+1\), \(u'=3\) → \(f'(x)=\dfrac{3}{3x+1}\)</p>
+    <p>• \(f(x)=\sqrt{x^2+1}\) : \(u=x^2+1\), \(u'=2x\) → \(f'(x)=\dfrac{2x}{2\sqrt{x^2+1}}=\dfrac{x}{\sqrt{x^2+1}}\)</p>
+    <p>• \(f(x)=(2x-1)^5\) : \(u=2x-1\), \(u'=2\) → \(f'(x)=5\cdot 2\cdot(2x-1)^4=10(2x-1)^4\)</p>
+    <p style="margin:0">• \(f(x)=e^{-x}\sin x\) : règle du produit + composée → \(f'(x)=-e^{-x}\sin x+e^{-x}\cos x=e^{-x}(\cos x-\sin x)\)</p>
+  </div>
+
+  <h3>Calculateur de dérivée — règle de la chaîne</h3>
+  <div class="calc">
+    <div class="calc-title">Dérivée de fonctions composées usuelles</div>
+    <div class="controls">
+      <label>Fonction :
+        <select id="dc-func" onchange="calcDerivee()">
+          <option value="eu2">e^(x²)</option>
+          <option value="ln3x1">ln(3x+1)</option>
+          <option value="sqrt_u">√(x²+1)</option>
+          <option value="u5">(2x−1)⁵</option>
+          <option value="cos2x">cos(2x+π/3)</option>
+          <option value="lncosx">ln(cos x)</option>
+          <option value="e_sinx">e^(sin x)</option>
+          <option value="x2_ex">x²·e^(−x)</option>
+        </select>
+      </label>
+      <label>en \(x\)=<input type="number" id="dc-x" value="1" step="0.1" oninput="calcDerivee()"></label>
+    </div>
+    <div class="result-box" id="deriv-res"></div>
+  </div>
+
+  <!-- Grapheur tangente -->
+  <div class="graph-wrap">
+    <div class="graph-bar">
+      <span>Courbe + tangente interactive</span>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
+        <label>f(x) :
+          <select id="gd-func" onchange="drawDerivGraph()">
+            <option value="eu2">e^(x²/4)</option>
+            <option value="ln1x2">ln(1+x²)</option>
+            <option value="sqrt1x2">√(1+x²)</option>
+            <option value="sinx2">sin(x)/x</option>
+            <option value="x3ex">x·e^(−x)</option>
+            <option value="cos2x">cos(2x)</option>
+          </select>
+        </label>
+        <label>Point \(a\)=<input type="number" id="gd-a" value="1" step="0.1" min="-4" max="4" oninput="drawDerivGraph()"></label>
+        <label>Afficher \(f'\) <input type="checkbox" id="gd-showdf" onchange="drawDerivGraph()" checked></label>
+      </div>
+    </div>
+    <canvas class="graph" id="canvas-deriv"></canvas>
+  </div>
+</section>
+
+<!-- ══════════ 04 CONVEXITÉ ══════════ -->
+<section id="convexite">
+  <div class="sec-hd"><span class="sec-num">04</span><h2>Dérivée seconde &amp; Convexité</h2></div>
+
+  <h3>Dérivée seconde</h3>
+  <div class="block def" data-label="Définition">
+    La <strong>dérivée seconde</strong> de \(f\) est la dérivée de \(f'\), notée \(f''\) ou \(\frac{d^2f}{dx^2}\).
+    <br>Elle mesure la variation du taux de variation, c'est-à-dire la « courbure » de la courbe.
+  </div>
+
+  <h3>Convexité et concavité</h3>
+  <div class="block def" data-label="Définition — Convexité">
+    \(f\) est <strong>convexe</strong> sur \(I\) si sa courbe est <em>au-dessus</em> de ses tangentes (ou en-dessous de ses cordes) :<br>
+    \[f'' \geq 0 \text{ sur } I\]
+    \(f\) est <strong>concave</strong> sur \(I\) si sa courbe est <em>en-dessous</em> de ses tangentes :<br>
+    \[f'' \leq 0 \text{ sur } I\]
+  </div>
+
+  <div class="block thm" data-label="Théorème — Lien avec la position de la courbe">
+    Si \(f\) est <strong>convexe</strong> sur \(I\) :
+    <ul style="margin:0.5rem 0 0 1.3rem">
+      <li>La courbe \(\mathcal{C}_f\) est <em>au-dessus</em> de chaque tangente.</li>
+      <li>Pour tous \(a,b\in I\) : \(\forall x\in[a,b],\; f(x)\leq \dfrac{f(b)-f(a)}{b-a}(x-a)+f(a)\) (en-dessous des cordes).</li>
+    </ul>
+    Si \(f\) est <strong>concave</strong>, les inégalités sont renversées.
+  </div>
+
+  <h3>Point d'inflexion</h3>
+  <div class="block def" data-label="Définition">
+    Un point \(A=(a, f(a))\) est un <strong>point d'inflexion</strong> de \(\mathcal{C}_f\) si \(f''\) change de signe en \(a\), c'est-à-dire si la courbe traverse sa tangente en \(A\).
+    <br><br>Condition nécessaire : \(f''(a)=0\). Mais cette condition n'est pas suffisante.
+  </div>
+
+  <details>
+    <summary>Contre-exemple — \(f''(a)=0\) sans point d'inflexion</summary>
+    <div class="proof-body">
+      \(f(x)=x^4\) : \(f''(x)=12x^2\), \(f''(0)=0\) mais \(f''\geq 0\) partout — pas de changement de signe, donc \(x=0\) n'est PAS un point d'inflexion (c'est un minimum global).
+    </div>
+  </details>
+
+  <h3>Visualiseur de convexité</h3>
+  <div class="graph-wrap">
+    <div class="graph-bar">
+      <span>Convexité, concavité et points d'inflexion</span>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
+        <label>f(x) :
+          <select id="gc-func" onchange="drawConvexGraph()">
+            <option value="x3">x³ − 3x</option>
+            <option value="ex">e^x</option>
+            <option value="lnx">ln(x)</option>
+            <option value="sinx">sin(x)</option>
+            <option value="x4">x⁴ − 6x²</option>
+            <option value="xex">x·e^(−x²)</option>
+          </select>
+        </label>
+        <label>Afficher \(f''\) <input type="checkbox" id="gc-showf2" onchange="drawConvexGraph()" checked></label>
+        <label>Tangentes <input type="checkbox" id="gc-showtan" onchange="drawConvexGraph()"></label>
+      </div>
+    </div>
+    <canvas class="graph" id="canvas-convex" style="height:320px;"></canvas>
+  </div>
+
+  <h3>Exemples de dérivées secondes</h3>
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Fonction</th><th>\(f'(x)\)</th><th>\(f''(x)\)</th><th>Convexité</th><th>Inflexion</th></tr></thead>
+      <tbody>
+        <tr><td>\(e^x\)</td><td>\(e^x\)</td><td>\(e^x>0\)</td><td>Convexe partout</td><td>Aucun</td></tr>
+        <tr><td>\(\ln x\)</td><td>\(1/x\)</td><td>\(-1/x^2<0\)</td><td>Concave partout</td><td>Aucun</td></tr>
+        <tr><td>\(x^3\)</td><td>\(3x^2\)</td><td>\(6x\)</td><td>Concave si \(x<0\), convexe si \(x>0\)</td><td>\(x=0\)</td></tr>
+        <tr><td>\(\sin x\)</td><td>\(\cos x\)</td><td>\(-\sin x\)</td><td>Alterne</td><td>\(x=k\pi\)</td></tr>
+        <tr><td>\(xe^{-x}\)</td><td>\((1-x)e^{-x}\)</td><td>\((x-2)e^{-x}\)</td><td>Convexe si \(x>2\), concave si \(x<2\)</td><td>\(x=2\)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Calculateur de dérivée seconde</h3>
+  <div class="calc">
+    <div class="calc-title">Dérivée seconde &amp; convexité en un point</div>
+    <div class="controls">
+      <label>Fonction :
+        <select id="f2-func" onchange="calcF2()">
+          <option value="x3m3x">x³ − 3x</option>
+          <option value="ex">e^x</option>
+          <option value="lnx">ln(x)</option>
+          <option value="sinx">sin(x)</option>
+          <option value="xex">x·e^(−x)</option>
+          <option value="x4">x⁴ − 2x²</option>
+        </select>
+      </label>
+      <label>en \(x\)=<input type="number" id="f2-x" value="1" step="0.1" oninput="calcF2()"></label>
+    </div>
+    <div class="result-box" id="f2-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 05 ÉTUDE COMPLÈTE ══════════ -->
+<section id="etude">
+  <div class="sec-hd"><span class="sec-num">05</span><h2>Étude complète d'une fonction</h2></div>
+
+  <h3>Méthode d'étude complète</h3>
+  <div class="block def" data-label="Plan d'étude">
+    <ol style="margin:0 0 0 1.3rem">
+      <li><strong>Domaine</strong> de définition.</li>
+      <li><strong>Parité</strong>, périodicité, symétries éventuelles.</li>
+      <li><strong>Limites</strong> aux bornes du domaine → asymptotes.</li>
+      <li><strong>Dérivée \(f'\)</strong> → tableau de signes → variations.</li>
+      <li><strong>Dérivée seconde \(f''\)</strong> → convexité, points d'inflexion.</li>
+      <li><strong>Tableau de variation</strong> complet (avec \(f''\)).</li>
+      <li><strong>Tracé</strong> de la courbe.</li>
+    </ol>
+  </div>
+
+  <h3>Exemple complet — \(f(x) = xe^{-x}\)</h3>
+  <div class="block def" data-label="Étude de xe^(−x)">
+    <p><strong>Domaine :</strong> \(\mathbb{R}\). <strong>Ni paire ni impaire.</strong></p>
+    <p><strong>Limites :</strong> \(\lim_{x\to+\infty}xe^{-x}=0\) (croissance comparée), \(\lim_{x\to-\infty}xe^{-x}=-\infty\). AH \(y=0\) en \(+\infty\).</p>
+    <p><strong>Dérivée :</strong> \(f'(x)=(1-x)e^{-x}\). Signe : \(f'>0\) si \(x<1\), \(f'(1)=0\), \(f'<0\) si \(x>1\). Maximum en \(x=1\) : \(f(1)=e^{-1}\).</p>
+    <p><strong>Dérivée seconde :</strong> \(f''(x)=(x-2)e^{-x}\). Signe : \(f''<0\) si \(x<2\) (concave), \(f''(2)=0\), \(f''>0\) si \(x>2\) (convexe).</p>
+    <p style="margin:0"><strong>Point d'inflexion :</strong> \(x=2\), \(f(2)=2e^{-2}\approx 0{,}27\). La courbe traverse sa tangente en ce point.</p>
+  </div>
+
+  <!-- Grapheur d'étude complète -->
+  <div class="graph-wrap">
+    <div class="graph-bar">
+      <span>Étude complète interactive</span>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
+        <label>Fonction :
+          <select id="ge-func" onchange="drawEtudeGraph()">
+            <option value="xex">x·e^(−x)</option>
+            <option value="x3m3x">x³ − 3x</option>
+            <option value="x2ex">x²·e^(−x)</option>
+            <option value="ln1x2">ln(1+x²)</option>
+            <option value="xe2x">x·e^(x/2)</option>
+          </select>
+        </label>
+        <label>f <input type="checkbox" id="ge-f" checked onchange="drawEtudeGraph()"></label>
+        <label>f' <input type="checkbox" id="ge-fp" checked onchange="drawEtudeGraph()"></label>
+        <label>f'' <input type="checkbox" id="ge-f2" onchange="drawEtudeGraph()"></label>
+        <label>Tgtes <input type="checkbox" id="ge-tan" onchange="drawEtudeGraph()"></label>
+      </div>
+    </div>
+    <canvas class="graph" id="canvas-etude" style="height:320px;"></canvas>
+  </div>
+</section>
+
+<!-- ══════════ 06 DÉMONSTRATIONS ══════════ -->
+<section id="demo">
+  <div class="sec-hd"><span class="sec-num">06</span><h2>Démonstrations exemplaires</h2></div>
+
+  <h3>Démo 1 — Règle de la chaîne \((g\circ f)' = f'\cdot(g'\circ f)\)</h3>
+  <div class="block demo" data-label="Démonstration">
+    On part de la définition de la dérivée de \(h=g\circ f\) en \(x\) :<br><br>
+    \[h'(x)=\lim_{t\to x}\frac{h(t)-h(x)}{t-x}=\lim_{t\to x}\frac{g(f(t))-g(f(x))}{t-x}\]
+    Si \(f(t)\neq f(x)\), on peut écrire :<br>
+    \[\frac{g(f(t))-g(f(x))}{t-x}=\frac{g(f(t))-g(f(x))}{f(t)-f(x)}\cdot\frac{f(t)-f(x)}{t-x}\]
+    Quand \(t\to x\) : le premier facteur \(\to g'(f(x))\) et le second \(\to f'(x)\).<br>
+    Donc \(h'(x)=g'(f(x))\cdot f'(x)=f'(x)\cdot(g'\circ f)(x)\). \(\blacksquare\)
+  </div>
+
+  <h3>Démo 2 — La convexité implique la position au-dessus des tangentes</h3>
+  <div class="block demo" data-label="Démonstration">
+    <strong>Énoncé :</strong> Si \(f''\geq 0\) sur \(I\), alors pour tout \(a\in I\), et tout \(x\in I\) : \(f(x)\geq f(a)+f'(a)(x-a)\).<br><br>
+    Posons \(g(x)=f(x)-f(a)-f'(a)(x-a)\). On a \(g(a)=0\), \(g'(x)=f'(x)-f'(a)\), \(g''(x)=f''(x)\geq 0\).<br><br>
+    Donc \(g'\) est croissante. Comme \(g'(a)=0\) : \(g'(x)\leq 0\) pour \(x<a\) et \(g'(x)\geq 0\) pour \(x>a\).<br>
+    Donc \(g\) est décroissante sur \((-\infty,a]\) et croissante sur \([a,+\infty)\), avec \(g(a)=0\) pour minimum.<br><br>
+    Ainsi \(g(x)\geq 0\), soit \(f(x)\geq f(a)+f'(a)(x-a)\). \(\blacksquare\)
+  </div>
+
+  <h3>Démo 3 — \((\sqrt{u})' = \frac{u'}{2\sqrt{u}}\)</h3>
+  <div class="block demo" data-label="Démonstration">
+    \(\sqrt{u} = u^{1/2}\). Par la règle de dérivation \((u^\alpha)'=\alpha u^{\alpha-1}u'\) avec \(\alpha=\frac{1}{2}\) :<br><br>
+    \((\sqrt{u})' = \frac{1}{2}u^{-1/2}\cdot u' = \frac{u'}{2u^{1/2}} = \frac{u'}{2\sqrt{u}}\) \(\blacksquare\)
+  </div>
+
+  <h3>Démo 4 — Inégalité de convexité exponentielle : \(e^x\geq 1+x\)</h3>
+  <div class="block demo" data-label="Démonstration">
+    \(f(x)=e^x\) est convexe (\(f''=e^x>0\)). Par la propriété de convexité (démo 2) appliquée en \(a=0\) :<br><br>
+    \(e^x\geq e^0+e^0(x-0)=1+x\) pour tout \(x\in\mathbb{R}\). \(\blacksquare\)<br><br>
+    <em>Application :</em> cette inégalité est fondamentale — elle sert à démontrer de nombreux résultats d'analyse (croissance comparée, etc.).
+  </div>
+</section>
+
+<!-- ══════════ 07 PYTHON ══════════ -->
+<section id="python">
+  <div class="sec-hd"><span class="sec-num">07</span><h2>Algorithmes Python</h2></div>
+
+  <!-- PY 1 -->
+  <div class="py-block" id="py1">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">derivees_composees.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py1')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py1')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py1')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py1-code">"""
+Dérivées de fonctions composées — règle de la chaîne.
+Vérification numérique par taux d'accroissement.
+"""
+import math
+
+def derivee_numerique(f, x, h=1e-8):
+    """Approximation numérique de f'(x) par taux d'accroissement."""
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+def derivee2_numerique(f, x, h=1e-6):
+    """Approximation numérique de f''(x)."""
+    return (f(x + h) - 2*f(x) + f(x - h)) / (h**2)
+
+# ── Définition des fonctions et leurs dérivées exactes ─
+fonctions = [
+    {
+        'nom': 'e^(x²)',
+        'f':   lambda x: math.exp(x**2),
+        'fp':  lambda x: 2*x*math.exp(x**2),
+        'fpp': lambda x: (4*x**2 + 2)*math.exp(x**2),
+    },
+    {
+        'nom': 'ln(3x+1)',
+        'f':   lambda x: math.log(3*x + 1),
+        'fp':  lambda x: 3 / (3*x + 1),
+        'fpp': lambda x: -9 / (3*x + 1)**2,
+    },
+    {
+        'nom': '√(x²+1)',
+        'f':   lambda x: math.sqrt(x**2 + 1),
+        'fp':  lambda x: x / math.sqrt(x**2 + 1),
+        'fpp': lambda x: 1 / (x**2 + 1)**1.5,
+    },
+    {
+        'nom': '(2x-1)⁵',
+        'f':   lambda x: (2*x - 1)**5,
+        'fp':  lambda x: 10*(2*x - 1)**4,
+        'fpp': lambda x: 80*(2*x - 1)**3,
+    },
+    {
+        'nom': 'x·e^(-x)',
+        'f':   lambda x: x * math.exp(-x),
+        'fp':  lambda x: (1 - x) * math.exp(-x),
+        'fpp': lambda x: (x - 2) * math.exp(-x),
+    },
+]
+
+print(f"{'Fonction':>15} {'x':>5} {'f(x)':>12} {'f\'(exacte)':>12} {'f\'(numérique)':>14} {'écart':>10}")
+print("-" * 75)
+
+for d in fonctions:
+    for x in [0.5, 1.0, 2.0]:
+        try:
+            fx  = d['f'](x)
+            fpx = d['fp'](x)
+            fpn = derivee_numerique(d['f'], x)
+            ecart = abs(fpx - fpn)
+            print(f"{d['nom']:>15} {x:>5.1f} {fx:>12.6f} {fpx:>12.6f} {fpn:>14.6f} {ecart:>10.2e}")
+        except Exception as e:
+            print(f"{d['nom']:>15} {x:>5.1f}  ERREUR: {e}")
+    print()</textarea>
+    <div class="py-out" id="py1-out"></div>
+  </div>
+
+  <!-- PY 2 -->
+  <div class="py-block" id="py2">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">convexite_inflexion.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py2')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py2')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py2')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py2-code">"""
+Étude de la convexité et des points d'inflexion.
+"""
+import math
+
+def derivee2_numerique(f, x, h=1e-5):
+    """f''(x) numérique."""
+    return (f(x+h) - 2*f(x) + f(x-h)) / h**2
+
+def chercher_inflexions(f, a, b, n=1000, eps=0.05):
+    """
+    Cherche les points d'inflexion en détectant les changements de signe de f''.
+    Retourne la liste des x approximatifs.
+    """
+    xs = [a + i*(b-a)/n for i in range(n+1)]
+    f2_vals = [derivee2_numerique(f, x) for x in xs]
+    inflexions = []
+    for i in range(len(f2_vals)-1):
+        if f2_vals[i] * f2_vals[i+1] < 0:
+            # Changement de signe → inflexion entre xs[i] et xs[i+1]
+            # Affiner par dichotomie
+            lo, hi = xs[i], xs[i+1]
+            for _ in range(30):
+                m = (lo+hi)/2
+                if derivee2_numerique(f,lo)*derivee2_numerique(f,m) <= 0:
+                    hi = m
+                else:
+                    lo = m
+            inflexions.append((lo+hi)/2)
+    return inflexions
+
+def etude_convexite(nom, f, a, b, n_pts=8):
+    """Affiche le signe de f'' et les zones de convexité."""
+    xs = [a + i*(b-a)/n_pts for i in range(n_pts+1)]
+    print(f"\n=== {nom} sur [{a}, {b}] ===")
+    print(f"{'x':>8}  {'f(x)':>12}  {'f\'\'(x)':>12}  {'Convexité':>12}")
+    print("-" * 50)
+    for x in xs:
+        try:
+            fx  = f(x)
+            f2x = derivee2_numerique(f, x)
+            conv = "convexe" if f2x > 0.01 else ("concave" if f2x < -0.01 else "inflexion ~")
+            print(f"{x:>8.3f}  {fx:>12.6f}  {f2x:>12.6f}  {conv:>12}")
+        except:
+            print(f"{x:>8.3f}  indéfini")
+
+    infl = chercher_inflexions(f, a, b)
+    if infl:
+        print(f"\nPoints d'inflexion approchés : x ≈ {[round(xi,4) for xi in infl]}")
+    else:
+        print("\nAucun point d'inflexion détecté.")
+
+# ── Tests ──────────────────────────────────────────────
+cas = [
+    ("x³ − 3x",      lambda x: x**3 - 3*x,            -3, 3),
+    ("x·e^(−x)",     lambda x: x*math.exp(-x),         -1, 5),
+    ("sin(x)",        lambda x: math.sin(x),            0, 2*math.pi),
+    ("e^x",           lambda x: math.exp(x),            -2, 2),
+    ("x⁴ − 6x²",     lambda x: x**4 - 6*x**2,         -3, 3),
+]
+for nom, f, a, b in cas:
+    etude_convexite(nom, f, a, b)</textarea>
+    <div class="py-out" id="py2-out"></div>
+  </div>
+
+  <!-- PY 3 -->
+  <div class="py-block" id="py3">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">etude_complete.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py3')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py3')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py3')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py3-code">"""
+Étude complète automatisée d'une fonction.
+"""
+import math
+
+def etude_complete(nom, f, fp, fpp, a, b, n=200):
+    """
+    Étude complète : extremums, inflexions, convexité.
+    fp et fpp sont les dérivées exactes (si disponibles).
+    """
+    print(f"\n{'='*60}")
+    print(f"  ÉTUDE COMPLÈTE : {nom}")
+    print(f"{'='*60}")
+
+    xs = [a + i*(b-a)/n for i in range(n+1)]
+    vals  = []
+    for x in xs:
+        try: vals.append((x, f(x), fp(x), fpp(x)))
+        except: pass
+
+    # Extremums locaux
+    print("\n── Extremums locaux (f'=0, changement de signe) ──")
+    for i in range(1, len(vals)-1):
+        x_prev, _, fp_prev, _ = vals[i-1]
+        x_cur,  fx, fp_cur, _ = vals[i]
+        if fp_prev * fp_cur < 0:
+            label = "maximum" if fp_prev > 0 else "minimum"
+            print(f"  x ≈ {x_cur:.4f} : {label} local, f(x) ≈ {fx:.6f}")
+
+    # Inflexions
+    print("\n── Points d'inflexion (f''=0, changement de signe) ──")
+    for i in range(1, len(vals)-1):
+        x_prev, _, _, fpp_prev = vals[i-1]
+        x_cur,  fx, fp_cur, fpp_cur = vals[i]
+        if fpp_prev * fpp_cur < 0:
+            print(f"  x ≈ {x_cur:.4f} : point d'inflexion, f(x) ≈ {fx:.6f}, f'(x) ≈ {fp_cur:.4f}")
+
+    # Tableau de variation simplifié
+    print("\n── Convexité globale ──")
+    zones = []
+    prev_sign = None
+    zone_start = a
+    for x, fx, fpx, fppx in vals:
+        sign = 1 if fppx > 0 else (-1 if fppx < 0 else 0)
+        if sign != prev_sign and sign != 0:
+            if prev_sign is not None:
+                zones.append((zone_start, x, prev_sign))
+            zone_start = x
+            prev_sign = sign
+    if prev_sign is not None:
+        zones.append((zone_start, b, prev_sign))
+    for (s, e, sg) in zones:
+        label = "convexe" if sg > 0 else "concave"
+        print(f"  [{s:.3f}, {e:.3f}] : {label}")
+
+# ── Exemples ──────────────────────────────────────────
+etude_complete(
+    "f(x) = x·e^(−x)",
+    f   = lambda x: x*math.exp(-x),
+    fp  = lambda x: (1-x)*math.exp(-x),
+    fpp = lambda x: (x-2)*math.exp(-x),
+    a=-1, b=5
+)
+
+etude_complete(
+    "f(x) = x³ − 3x",
+    f   = lambda x: x**3 - 3*x,
+    fp  = lambda x: 3*x**2 - 3,
+    fpp = lambda x: 6*x,
+    a=-2.5, b=2.5
+)
+
+etude_complete(
+    "f(x) = x²·e^(−x)",
+    f   = lambda x: x**2*math.exp(-x),
+    fp  = lambda x: x*(2-x)*math.exp(-x),
+    fpp = lambda x: (x**2 - 4*x + 2)*math.exp(-x),
+    a=-1, b=6
+)</textarea>
+    <div class="py-out" id="py3-out"></div>
+  </div>
+
+  <!-- PY 4 -->
+  <div class="py-block" id="py4">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">inegalites_convexite.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py4')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py4')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py4')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py4-code">"""
+Inégalités de convexité — vérifications numériques.
+"""
+import math
+
+def verif_convexite_tangente(f, fp, a, points, label=""):
+    """
+    Vérifie f(x) >= f(a) + f'(a)(x-a) pour f convexe.
+    """
+    print(f"\n=== {label} ===")
+    print(f"Point de tangence : a = {a}")
+    print(f"Tangente en a : T(x) = f({a}) + f'({a})·(x−{a})")
+    fa = f(a); fpa = fp(a)
+    print(f"  f({a}) = {fa:.6f}, f'({a}) = {fpa:.6f}")
+    print(f"\n{'x':>8}  {'f(x)':>12}  {'T(x)':>12}  {'f(x)−T(x)':>12}  {'f≥T':>6}")
+    print("-" * 55)
+    for x in points:
+        try:
+            fx = f(x)
+            Tx = fa + fpa*(x - a)
+            diff = fx - Tx
+            ok = "✓" if diff >= -1e-9 else "✗"
+            print(f"{x:>8.3f}  {fx:>12.6f}  {Tx:>12.6f}  {diff:>12.6f}  {ok:>6}")
+        except:
+            print(f"{x:>8.3f}  indéfini")
+
+# 1. e^x >= 1+x  (tangente en a=0)
+verif_convexite_tangente(
+    f=math.exp, fp=math.exp, a=0,
+    points=[-3, -2, -1, -0.5, 0, 0.5, 1, 2, 3],
+    label="e^x ≥ 1+x  (convexité de exp)"
+)
+
+# 2. ln(x) <= x-1  (concavité de ln, tangente en a=1)
+print("\n=== ln(x) ≤ x−1  (concavité de ln) ===")
+print("Tangente en a=1 : T(x) = x-1")
+for x in [0.1, 0.5, 1, 2, 3, 5, 10]:
+    try:
+        lnx = math.log(x)
+        Tx  = x - 1
+        diff = Tx - lnx  # doit être ≥ 0
+        print(f"  x={x:4}: ln(x)={lnx:8.5f}, x-1={Tx:7.4f}, (x-1)-ln(x)={diff:.6f} {'✓' if diff>=-1e-9 else '✗'}")
+    except:
+        pass
+
+# 3. Inégalité AM-GM : (a+b)/2 >= sqrt(ab)
+print("\n=== Inégalité AM-GM via convexité de -ln ===")
+print("Convexité de -ln(x) → ln((a+b)/2) ≥ (ln(a)+ln(b))/2 → (a+b)/2 ≥ √(ab)")
+import random
+random.seed(42)
+for _ in range(6):
+    a, b = random.uniform(0.5, 5), random.uniform(0.5, 5)
+    am = (a + b) / 2
+    gm = math.sqrt(a * b)
+    print(f"  a={a:.3f}, b={b:.3f}: MA={am:.4f}, MG={gm:.4f}, MA≥MG: {am >= gm - 1e-10}")</textarea>
+    <div class="py-out" id="py4-out"></div>
+  </div>
+
+  <!-- PY 5 bac à sable -->
+  <div class="py-block" id="py5">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">bac_a_sable.py</span><span class="py-badge">Libre</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py5')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py5')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py5')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py5-code">import math
+
+# ── Zone libre — expérimente ────────────────────────────
+# Méthode de Newton-Raphson : itération utilisant f et f'
+
+def newton(f, fp, x0, n_iter=10, verbose=True):
+    """
+    Méthode de Newton pour résoudre f(x)=0.
+    x_{n+1} = x_n - f(x_n)/f'(x_n)
+    """
+    x = x0
+    if verbose:
+        print(f"{'n':>4}  {'x_n':>16}  {'f(x_n)':>14}  {'|x_n - x_{n-1}|':>16}")
+        print("-" * 55)
+    for n in range(n_iter):
+        fx  = f(x)
+        fpx = fp(x)
+        if abs(fpx) < 1e-14:
+            print("  f'(x) ≈ 0 — arrêt")
+            break
+        x_new = x - fx/fpx
+        if verbose:
+            print(f"{n:>4}  {x:>16.12f}  {fx:>14.2e}  {abs(x_new-x):>16.2e}")
+        if abs(x_new - x) < 1e-12:
+            x = x_new; break
+        x = x_new
+    return x
+
+print("=== Newton — √2 (f(x) = x² - 2) ===")
+r = newton(lambda x: x**2 - 2, lambda x: 2*x, x0=2.0, n_iter=10)
+print(f"Résultat : {r:.12f}  (√2 = {math.sqrt(2):.12f})")
+print()
+
+print("=== Newton — e^x = 3 (f(x) = e^x - 3) ===")
+r2 = newton(lambda x: math.exp(x)-3, lambda x: math.exp(x), x0=1.0, n_iter=8)
+print(f"Résultat : {r2:.12f}  (ln 3 = {math.log(3):.12f})")
+print()
+
+print("=== Newton — cos(x) = x (f(x) = cos(x) - x) ===")
+r3 = newton(lambda x: math.cos(x)-x, lambda x: -math.sin(x)-1, x0=1.0, n_iter=8)
+print(f"Résultat : {r3:.12f}")
+</textarea>
+    <div class="py-out" id="py5-out"></div>
+  </div>
+</section>
+
+<!-- ══════════ 08 QCM ══════════ -->
+<section id="qcm">
+  <div class="sec-hd"><span class="sec-num">08</span><h2>QCM interactif</h2></div>
+
+  <div class="qcm-top">
+    <div class="chrono">
+      <span style="font-size:0.75rem;color:var(--ink3)">⏱</span>
+      <span class="chrono-d" id="c-d">00:00</span>
+      <button class="btn-s" id="btn-c" onclick="toggleC()" style="padding:0.24rem 0.58rem;font-size:0.7rem;">Pause</button>
+      <button class="btn-s" onclick="resetC()" style="padding:0.24rem 0.58rem;font-size:0.7rem;">↺</button>
+    </div>
+    <div><span style="font-size:0.82rem;color:var(--ink3)">Score : </span><span class="score-v" id="sc-v">0 / 0</span></div>
+  </div>
+
+  <div id="qcm-c"></div>
+
+  <div class="qcm-acts">
+    <button class="btn-p" onclick="submitQCM()">Valider le QCM</button>
+    <button class="btn-s" onclick="newQCM()">↺ Nouveau QCM</button>
+  </div>
+
+  <div class="qcm-res" id="qcm-r">
+    <div class="res-sc" id="r-sc"></div>
+    <div class="res-msg" id="r-msg"></div>
+    <br>
+    <button class="btn-p" onclick="newQCM()">↺ Nouveau QCM</button>
+  </div>
+</section>
+
+<!-- ══════════ 09 CONTACT ══════════ -->
+<section id="contact">
+  <div class="sec-hd"><span class="sec-num">09</span><h2>Prendre rendez-vous</h2></div>
+
+  <div class="cg">
+    <a class="cc" href="https://docs.google.com/forms/d/e/1FAIpQLSfiOvJG1wicFQY8EQufqy5YxGgTPSFPxdyb-OAtk95SUGxWFA/viewform" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=e86820&bgcolor=1d2028&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfiOvJG1wicFQY8EQufqy5YxGgTPSFPxdyb-OAtk95SUGxWFA%2Fviewform" alt="QR Formulaire">
+      <div class="cc-t">📋 Formulaire</div>
+      <div class="cc-s">Avis, erreur ou question</div>
+      <span class="cc-l">Google Forms ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/30min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=20c0b0&bgcolor=1d2028&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2F30min" alt="QR Élèves">
+      <div class="cc-t">🎓 Élèves — 30 min</div>
+      <div class="cc-s">Soutien individuel</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/appel-pro-formation-ou-collaboration-45-min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=d8b020&bgcolor=1d2028&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2Fappel-pro-formation-ou-collaboration-45-min" alt="QR Prof">
+      <div class="cc-t">🏫 Professeurs — 45 min</div>
+      <div class="cc-s">Formation, collaboration</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/point-parents-presentation-de-l-outil-15-min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=9070e0&bgcolor=1d2028&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2Fpoint-parents-presentation-de-l-outil-15-min" alt="QR Parents">
+      <div class="cc-t">👨‍👩‍👧 Parents — 15 min</div>
+      <div class="cc-s">Présentation &amp; suivi</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+  </div>
+
+  <p style="text-align:center;margin-top:2rem;font-size:0.75rem;color:var(--ink3);font-family:var(--font-m);letter-spacing:0.05em;">
+    TERMINALE · SPÉCIALITÉ MATHÉMATIQUES ·
+    <a href="https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf"
+       target="_blank" style="color:var(--orange);text-decoration:none;">PROGRAMME OFFICIEL ÉDUSCOL</a>
+    · COMPLÉMENTS DÉRIVATION (P. 12)
+  </p>
+</section>
+</main>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+// ── UTILS ──────────────────────────────────────────
+const R4 = v => isFinite(v) ? Math.round(v*10000)/10000 : (v>0?'+∞':'-∞');
+
+// ── FUNCTION REGISTRY ──────────────────────────────
+const FN = {
+  eu2:     { f: x=>Math.exp(x*x),          fp: x=>2*x*Math.exp(x*x),                   fpp: x=>(4*x*x+2)*Math.exp(x*x),              s:'e^(x²)' },
+  ln1x2:   { f: x=>Math.log(1+x*x),        fp: x=>2*x/(1+x*x),                          fpp: x=>(2-2*x*x)/(1+x*x)**2,                  s:'ln(1+x²)' },
+  sqrt1x2: { f: x=>Math.sqrt(1+x*x),       fp: x=>x/Math.sqrt(1+x*x),                  fpp: x=>1/(1+x*x)**1.5,                        s:'√(1+x²)' },
+  sinx2:   { f: x=>x===0?1:Math.sin(x)/x,  fp: x=>x===0?0:(Math.cos(x)*x-Math.sin(x))/(x*x), fpp: x=>x===0?-1/3:((2-x*x)*Math.sin(x)-2*x*Math.cos(x))/(x*x*x), s:'sin(x)/x' },
+  x3ex:    { f: x=>x*Math.exp(-x),         fp: x=>(1-x)*Math.exp(-x),                  fpp: x=>(x-2)*Math.exp(-x),                    s:'x·e^(−x)' },
+  cos2x:   { f: x=>Math.cos(2*x),          fp: x=>-2*Math.sin(2*x),                    fpp: x=>-4*Math.cos(2*x),                      s:'cos(2x)' },
+  x3m3x:   { f: x=>x*x*x-3*x,             fp: x=>3*x*x-3,                              fpp: x=>6*x,                                   s:'x³−3x' },
+  ex:      { f: x=>Math.exp(x),            fp: x=>Math.exp(x),                          fpp: x=>Math.exp(x),                           s:'e^x' },
+  lnx:     { f: x=>x>0?Math.log(x):NaN,   fp: x=>1/x,                                  fpp: x=>-1/(x*x),                              s:'ln(x)' },
+  sinx:    { f: x=>Math.sin(x),            fp: x=>Math.cos(x),                          fpp: x=>-Math.sin(x),                          s:'sin(x)' },
+  xex:     { f: x=>x*Math.exp(-x),         fp: x=>(1-x)*Math.exp(-x),                  fpp: x=>(x-2)*Math.exp(-x),                    s:'x·e^(−x)' },
+  x4:      { f: x=>x*x*x*x-6*x*x,         fp: x=>4*x*x*x-12*x,                        fpp: x=>12*x*x-12,                             s:'x⁴−6x²' },
+  xe2x:    { f: x=>x*Math.exp(x/2),        fp: x=>(1+x/2)*Math.exp(x/2),               fpp: x=>(1/4*x+1)*Math.exp(x/2),               s:'x·e^(x/2)' },
+  x2ex:    { f: x=>x*x*Math.exp(-x),       fp: x=>x*(2-x)*Math.exp(-x),                fpp: x=>(x*x-4*x+2)*Math.exp(-x),              s:'x²·e^(−x)' },
+  // composée-calc extras
+  ln3x1:   { f: x=>Math.log(3*x+1),       fp: x=>3/(3*x+1),                            fpp: x=>-9/(3*x+1)**2,                         s:'ln(3x+1)' },
+  sqrt_u:  { f: x=>Math.sqrt(x*x+1),      fp: x=>x/Math.sqrt(x*x+1),                  fpp: x=>1/(x*x+1)**1.5,                        s:'√(x²+1)' },
+  u5:      { f: x=>(2*x-1)**5,             fp: x=>10*(2*x-1)**4,                        fpp: x=>80*(2*x-1)**3,                         s:'(2x−1)⁵' },
+  cos2xp:  { f: x=>Math.cos(2*x+Math.PI/3), fp: x=>-2*Math.sin(2*x+Math.PI/3),        fpp: x=>-4*Math.cos(2*x+Math.PI/3),            s:'cos(2x+π/3)' },
+  lncosx:  { f: x=>Math.log(Math.cos(x)),  fp: x=>-Math.tan(x),                         fpp: x=>-1/(Math.cos(x)**2),                   s:'ln(cos x)' },
+  e_sinx:  { f: x=>Math.exp(Math.sin(x)), fp: x=>Math.cos(x)*Math.exp(Math.sin(x)),    fpp: x=>(-Math.sin(x)+Math.cos(x)**2)*Math.exp(Math.sin(x)), s:'e^(sin x)' },
+  x2_ex:   { f: x=>x*x*Math.exp(-x),      fp: x=>x*(2-x)*Math.exp(-x),                fpp: x=>(x*x-4*x+2)*Math.exp(-x),              s:'x²·e^(−x)' },
+  x3m3x_f2:{ f: x=>x*x*x-3*x,            fp: x=>3*x*x-3,                              fpp: x=>6*x,                                   s:'x³−3x' },
+  x4_2x2:  { f: x=>x*x*x*x-2*x*x,        fp: x=>4*x*x*x-4*x,                          fpp: x=>12*x*x-4,                              s:'x⁴−2x²' },
+};
+// Map select keys to FN keys
+const DC_MAP = { eu2:'eu2', ln3x1:'ln3x1', sqrt_u:'sqrt_u', u5:'u5', cos2x:'cos2xp', lncosx:'lncosx', e_sinx:'e_sinx', x2_ex:'x2_ex' };
+const GD_MAP = { eu2:'eu2', ln1x2:'ln1x2', sqrt1x2:'sqrt1x2', sinx2:'sinx2', x3ex:'x3ex', cos2x:'cos2x' };
+const GC_MAP = { x3:'x3m3x', ex:'ex', lnx:'lnx', sinx:'sinx', x4:'x4', xex:'xex' };
+const GE_MAP = { xex:'x3ex', x3m3x:'x3m3x', x2ex:'x2ex', ln1x2:'ln1x2', xe2x:'xe2x' };
+const F2_MAP = { x3m3x:'x3m3x', ex:'ex', lnx:'lnx', sinx:'sinx', xex:'xex', x4:'x4_2x2' };
+
+// ── GRAPH UTILITIES ──────────────────────────────────
+function drawFunctionGraph(canvasId, fnKey, options={}) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth||880, H = canvas.offsetHeight||300;
+  canvas.width=W; canvas.height=H;
+
+  const { xmin=-5, xmax=5, showFp=false, showFpp=false, showTangent=false, tangentA=null, showInflexions=false } = options;
+  const fn = FN[fnKey]; if (!fn) return;
+
+  const pad = {l:45, r:20, t:18, b:32};
+  const gW=W-pad.l-pad.r, gH=H-pad.t-pad.b;
+
+  // Sample
+  const N=W*3;
+  const pts=[], ptsFp=[], ptsFpp=[];
+  for(let i=0;i<=N;i++){
+    const x=xmin+i/N*(xmax-xmin);
+    try{const y=fn.f(x); pts.push(isFinite(y)&&Math.abs(y)<50?{x,y}:null);}catch{pts.push(null);}
+    try{const y=fn.fp(x); ptsFp.push(isFinite(y)&&Math.abs(y)<50?{x,y}:null);}catch{ptsFp.push(null);}
+    try{const y=fn.fpp(x); ptsFpp.push(isFinite(y)&&Math.abs(y)<50?{x,y}:null);}catch{ptsFpp.push(null);}
+  }
+
+  const allY=[...pts,...ptsFp,...ptsFpp].filter(Boolean).map(p=>p.y);
+  const ymin=Math.max(-30,Math.min(...allY,-0.5)-0.5);
+  const ymax=Math.min(30,Math.max(...allY,0.5)+0.5);
+
+  const toX=x=>pad.l+(x-xmin)/(xmax-xmin)*gW;
+  const toY=y=>pad.t+gH-(y-ymin)/(ymax-ymin)*gH;
+
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#1d2028'; ctx.fillRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='rgba(44,48,64,0.8)'; ctx.lineWidth=0.7;
+  for(let gx=Math.ceil(xmin);gx<=Math.floor(xmax);gx++){
+    const x=toX(gx); ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+gH);ctx.stroke();
+    if(gx!==0){ctx.fillStyle='#5a5860';ctx.font='9px Source Code Pro,monospace';ctx.fillText(gx,x-4,pad.t+gH+12);}
+  }
+  for(let gy=Math.ceil(ymin);gy<=Math.floor(ymax);gy++){
+    const y=toY(gy); ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+gW,y);ctx.stroke();
+    if(gy!==0){ctx.fillStyle='#5a5860';ctx.font='9px Source Code Pro,monospace';ctx.fillText(gy,2,y+3);}
+  }
+
+  // Axes
+  if(ymin<0&&ymax>0){const y0=toY(0);ctx.strokeStyle='rgba(232,164,80,0.3)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.l,y0);ctx.lineTo(pad.l+gW,y0);ctx.stroke();}
+  if(xmin<0&&xmax>0){const x0=toX(0);ctx.strokeStyle='rgba(232,164,80,0.3)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x0,pad.t);ctx.lineTo(x0,pad.t+gH);ctx.stroke();}
+
+  // f''
+  if(showFpp){
+    ctx.strokeStyle='rgba(144,112,224,0.7)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); let pen=true;
+    ptsFpp.forEach(p=>{if(!p){pen=true;return;} const px=toX(p.x),py=toY(p.y); pen?ctx.moveTo(px,py):ctx.lineTo(px,py); pen=false;});
+    ctx.stroke();
+  }
+
+  // f'
+  if(showFp){
+    ctx.strokeStyle='rgba(32,192,176,0.85)'; ctx.lineWidth=1.8;
+    ctx.beginPath(); let pen=true;
+    ptsFp.forEach(p=>{if(!p){pen=true;return;} const px=toX(p.x),py=toY(p.y); pen?ctx.moveTo(px,py):ctx.lineTo(px,py); pen=false;});
+    ctx.stroke();
+  }
+
+  // Convex coloring
+  if(showInflexions){
+    for(let i=0;i<ptsFpp.length-1;i++){
+      const p=ptsFpp[i];
+      if(!p) continue;
+      const x=toX(p.x), convex=p.y>0;
+      ctx.fillStyle=convex?'rgba(80,200,120,0.06)':'rgba(232,104,32,0.06)';
+      ctx.fillRect(x,pad.t,gW/(ptsFpp.length-1),gH);
+    }
+  }
+
+  // Tangent
+  if(showTangent && tangentA!==null){
+    try{
+      const fa=fn.f(tangentA), fpa=fn.fp(tangentA);
+      const x1=xmin, x2=xmax;
+      const y1=fa+fpa*(x1-tangentA), y2=fa+fpa*(x2-tangentA);
+      ctx.strokeStyle='rgba(216,176,32,0.8)'; ctx.lineWidth=1.3; ctx.setLineDash([5,3]);
+      ctx.beginPath();ctx.moveTo(toX(x1),toY(y1));ctx.lineTo(toX(x2),toY(y2));ctx.stroke();
+      ctx.setLineDash([]);
+      // Point
+      ctx.fillStyle='#d8b020';ctx.beginPath();ctx.arc(toX(tangentA),toY(fa),5,0,2*Math.PI);ctx.fill();
+      ctx.fillStyle='#d8b020';ctx.font='10px Source Code Pro,monospace';
+      ctx.fillText(`a=${tangentA}`,toX(tangentA)+7,toY(fa)-4);
+    }catch{}
+  }
+
+  // f
+  ctx.strokeStyle='#f59040'; ctx.lineWidth=2.2;
+  ctx.beginPath(); let pen=true;
+  pts.forEach(p=>{if(!p){pen=true;return;} const px=toX(p.x),py=toY(p.y); pen?ctx.moveTo(px,py):ctx.lineTo(px,py); pen=false;});
+  ctx.stroke();
+
+  // Legend
+  ctx.fillStyle='#f59040';ctx.font='bold 10px Source Code Pro,monospace';ctx.fillText(`y = ${fn.s}`,pad.l+4,pad.t+14);
+  if(showFp){ctx.fillStyle='rgba(32,192,176,0.85)';ctx.fillText("y = f'",pad.l+4,pad.t+26);}
+  if(showFpp){ctx.fillStyle='rgba(144,112,224,0.7)';ctx.fillText("y = f''",pad.l+4,pad.t+38);}
+}
+
+function drawDerivGraph(){
+  const k=GD_MAP[document.getElementById('gd-func').value]||'eu2';
+  const a=+document.getElementById('gd-a').value;
+  const showFp=document.getElementById('gd-showdf').checked;
+  drawFunctionGraph('canvas-deriv', k, {xmin:-5,xmax:5, showFp, showTangent:true, tangentA:a});
+}
+function drawConvexGraph(){
+  const k=GC_MAP[document.getElementById('gc-func').value]||'x3m3x';
+  const showFpp=document.getElementById('gc-showf2').checked;
+  const showTan=document.getElementById('gc-showtan').checked;
+  const a=showTan?1:null;
+  drawFunctionGraph('canvas-convex',k,{xmin:-4,xmax:4,showFpp,showTangent:showTan,tangentA:a,showInflexions:true});
+}
+function drawEtudeGraph(){
+  const k=GE_MAP[document.getElementById('ge-func').value]||'x3ex';
+  drawFunctionGraph('canvas-etude',k,{
+    xmin:-2,xmax:6,
+    showFp:document.getElementById('ge-fp').checked,
+    showFpp:document.getElementById('ge-f2').checked,
+    showTangent:document.getElementById('ge-tan').checked,
+    tangentA:1, showInflexions:false,
+  });
+}
+
+window.addEventListener('resize',()=>{drawDerivGraph();drawConvexGraph();drawEtudeGraph();});
+setTimeout(()=>{drawDerivGraph();drawConvexGraph();drawEtudeGraph();},100);
+
+// ── CALCULATEURS ────────────────────────────────────
+function calcDerivee(){
+  const k=DC_MAP[document.getElementById('dc-func').value]||'eu2';
+  const x=+document.getElementById('dc-x').value;
+  const fn=FN[k]; if(!fn) return;
+  const el=document.getElementById('deriv-res');
+  try{
+    const fx=fn.f(x), fpx=fn.fp(x);
+    el.innerHTML=`\\(${fn.s}\\) en \\(x=${x}\\) : \\(f(${x})=${R4(fx)}\\), \\(f'(${x})=${R4(fpx)}\\)`;
+    if(window.MathJax) MathJax.typeset([el]);
+  }catch(e){el.textContent='Erreur (domaine ?)';}
+}
+calcDerivee();
+
+function calcF2(){
+  const k=F2_MAP[document.getElementById('f2-func').value]||'x3m3x';
+  const x=+document.getElementById('f2-x').value;
+  const fn=FN[k]; if(!fn) return;
+  const el=document.getElementById('f2-res');
+  try{
+    const fx=fn.f(x), fpx=fn.fp(x), fppx=fn.fpp(x);
+    const conv=fppx>1e-9?'convexe (f\'\'> 0)':fppx<-1e-9?'concave (f\'\'< 0)':'possible inflexion (f\'\'= 0)';
+    el.innerHTML=`\\(f(${x})=${R4(fx)}\\) — \\(f'(${x})=${R4(fpx)}\\) — \\(f''(${x})=${R4(fppx)}\\) → <strong>${conv}</strong>`;
+    if(window.MathJax) MathJax.typeset([el]);
+  }catch(e){el.textContent='Erreur (domaine ?)';}
+}
+calcF2();
+
+// ── PYODIDE ──────────────────────────────────────────
+let pyodide=null,pyoLoad=false;
+const origC={};
+document.querySelectorAll('.py-code').forEach(ta=>{origC[ta.id]=ta.value;});
+async function loadPyo(){
+  if(pyodide) return true; if(pyoLoad) return false; pyoLoad=true;
+  const st=document.getElementById('py-status');st.textContent='⏳ Chargement Python…';
+  try{
+    const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
+    document.head.appendChild(s);await new Promise((res,rej)=>{s.onload=res;s.onerror=rej;});
+    pyodide=await window.loadPyodide();
+    st.textContent='✓ Python prêt';st.classList.add('ready');setTimeout(()=>st.classList.add('hidden'),3000);return true;
+  }catch(e){st.textContent='✗ Erreur Python';return false;}
+}
+async function runPy(id){
+  const code=document.getElementById(id+'-code').value;
+  const out=document.getElementById(id+'-out');
+  out.className='py-out active';out.textContent='⏳ Exécution…';out.style.color='#888';
+  const ok=await loadPyo();
+  if(!ok){out.className='py-out active error';out.textContent='Python non disponible.';return;}
+  try{
+    let stdout='';pyodide.setStdout({batched:s=>stdout+=s+'\n'});
+    await pyodide.runPythonAsync(code);
+    out.className='py-out active';out.style.color='#a6e3a1';out.textContent=stdout||'(aucune sortie)';
+  }catch(e){out.className='py-out active error';out.textContent='⚠ '+e.message;}
+}
+function dlPy(id){
+  const code=document.getElementById(id+'-code').value;
+  const fname=document.getElementById(id+'-code').closest('.py-block').querySelector('.py-title').textContent.trim();
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/plain'}));a.download=fname;a.click();
+}
+function rstPy(id){
+  document.getElementById(id+'-code').value=origC[id+'-code'];
+  const out=document.getElementById(id+'-out');out.className='py-out';out.textContent='';
+}
+
+// ── QCM ──────────────────────────────────────────────
+const allQ=[
+  {q:"La dérivée de \\(f(x)=e^{x^2}\\) est :",
+   opts:["\\(e^{x^2}\\)","\\(2xe^{x^2}\\)","\\(x^2e^{x^2}\\)","\\(2e^{x^2}\\)"],ans:1,
+   exp:"\\(u=x^2\\), \\(u'=2x\\) → \\(f'=(u)'e^u=2xe^{x^2}\\)."},
+  {q:"La dérivée de \\(f(x)=\\ln(3x+1)\\) est :",
+   opts:["\\(\\frac{1}{3x+1}\\)","\\(\\frac{3}{3x+1}\\)","\\(3\\ln(3x+1)\\)","\\(\\frac{1}{x}\\)"],ans:1,
+   exp:"\\((\\ln u)'=\\frac{u'}{u}=\\frac{3}{3x+1}\\)."},
+  {q:"\\(f''\\geq 0\\) sur \\(I\\) signifie que \\(f\\) est :",
+   opts:["Croissante sur \\(I\\)","Concave sur \\(I\\)","Convexe sur \\(I\\)","À extremum sur \\(I\\)"],ans:2,
+   exp:"Définition : \\(f\\) convexe \\(\\Leftrightarrow f''\\geq 0\\). La courbe est au-dessus de ses tangentes."},
+  {q:"Un point d'inflexion de \\(\\mathcal{C}_f\\) est un point où :",
+   opts:["\\(f'=0\\)","\\(f=0\\)","\\(f''\\) change de signe","\\(f\\) admet un extremum"],ans:2,
+   exp:"Un point d'inflexion est un point où la convexité change, i.e. où \\(f''\\) change de signe."},
+  {q:"La dérivée de \\(f(x)=\\sqrt{x^2+4}\\) est :",
+   opts:["\\(\\frac{1}{2\\sqrt{x^2+4}}\\)","\\(\\frac{x}{\\sqrt{x^2+4}}\\)","\\(\\frac{2x}{\\sqrt{x^2+4}}\\)","\\(\\sqrt{2x}\\)"],ans:1,
+   exp:"\\(u=x^2+4\\), \\(u'=2x\\) → \\((\\sqrt{u})'=\\frac{u'}{2\\sqrt{u}}=\\frac{2x}{2\\sqrt{x^2+4}}=\\frac{x}{\\sqrt{x^2+4}}\\)."},
+  {q:"Pour \\(f(x)=x^3\\), le point \\(x=0\\) est :",
+   opts:["Un maximum","Un minimum","Un point d'inflexion","Un point de discontinuité"],ans:2,
+   exp:"\\(f''(x)=6x\\), \\(f''(0)=0\\) et \\(f''\\) change de signe en 0 (de négatif à positif). C'est un point d'inflexion."},
+  {q:"La dérivée de \\(f(x)=(2x-1)^4\\) est :",
+   opts:["\\(4(2x-1)^3\\)","\\(8(2x-1)^3\\)","\\(4(2x-1)^4\\)","\\(2(2x-1)^3\\)"],ans:1,
+   exp:"\\(u=2x-1\\), \\(u'=2\\) → \\((u^4)'=4u^3\\cdot u'=4(2x-1)^3\\cdot 2=8(2x-1)^3\\)."},
+  {q:"\\(f(x)=e^x\\) est :",
+   opts:["Concave sur \\(\\mathbb{R}\\)","Convexe sur \\(\\mathbb{R}\\)","Ni convexe ni concave","Convexe uniquement pour \\(x>0\\)"],ans:1,
+   exp:"\\(f''(x)=e^x>0\\) pour tout \\(x\\). Donc \\(e^x\\) est convexe sur \\(\\mathbb{R}\\) et \\(e^x\\geq 1+x\\) pour tout \\(x\\)."},
+  {q:"La règle de la chaîne donne \\((g\\circ f)'(x) = \\) :",
+   opts:["\\(g'(x)\\cdot f'(x)\\)","\\(f'(x)\\cdot g'(f(x))\\)","\\(f'(g(x))\\cdot g'(x)\\)","\\(g'(f'(x))\\)"],ans:1,
+   exp:"\\((g\\circ f)'(x)=f'(x)\\cdot g'(f(x))\\) : dérivée de l'intérieur \\(\\times\\) dérivée de l'extérieur calculée à l'intérieur."},
+  {q:"\\(f''(a)=0\\) est-il suffisant pour que \\(a\\) soit un point d'inflexion ?",
+   opts:["Oui, toujours","Non, il faut aussi que \\(f''\\) change de signe","Seulement si \\(f'(a)=0\\)","Seulement si \\(f\\) est paire"],ans:1,
+   exp:"Non ! Contre-exemple : \\(x^4\\), \\(f''(0)=0\\) mais \\(f''\\geq 0\\) partout, pas de changement de signe. Il FAUT le changement de signe."},
+  {q:"La dérivée de \\(\\ln(\\cos x)\\) est :",
+   opts:["\\(\\frac{1}{\\cos x}\\)","\\(-\\tan x\\)","\\(\\frac{-\\sin x}{\\cos x}\\)","B et C sont identiques"],ans:3,
+   exp:"\\(u=\\cos x\\), \\(u'=-\\sin x\\) → \\((\\ln u)'=\\frac{u'}{u}=\\frac{-\\sin x}{\\cos x}=-\\tan x\\). Les réponses B et C sont identiques."},
+  {q:"Pour une fonction convexe \\(f\\) et tous \\(a,b\\) de son domaine :",
+   opts:["\\(f\\left(\\frac{a+b}{2}\\right)\\geq\\frac{f(a)+f(b)}{2}\\)","\\(f\\left(\\frac{a+b}{2}\\right)\\leq\\frac{f(a)+f(b)}{2}\\)","\\(f(a+b)=f(a)+f(b)\\)","\\(f\\) est croissante"],ans:1,
+   exp:"Pour une fonction convexe, la courbe est en-dessous des cordes : \\(f\\left(\\frac{a+b}{2}\\right)\\leq\\frac{f(a)+f(b)}{2}\\)."},
+];
+
+let curQ=[],answered={},cSec=0,cPaused=false,cIntv=null;
+function shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pad2(n){return String(n).padStart(2,'0');}
+function newQCM(){answered={};curQ=shuf(allQ).slice(0,8);document.getElementById('qcm-r').classList.remove('active');document.getElementById('sc-v').textContent='0 / 0';resetC();startC();renderQ();}
+function renderQ(){
+  const c=document.getElementById('qcm-c');
+  c.innerHTML=curQ.map((q,qi)=>`
+    <div class="qcm-q" id="qq-${qi}">
+      <div class="qcm-question">${qi+1}. ${q.q}</div>
+      <div class="qcm-opts">
+        ${q.opts.map((o,oi)=>`
+          <div class="qcm-opt" id="opt-${qi}-${oi}" onclick="selO(${qi},${oi})">
+            <span class="opt-l">${String.fromCharCode(65+oi)}</span><span>${o}</span>
+          </div>`).join('')}
+      </div>
+      <div class="qcm-fb" id="fb-${qi}"></div>
+    </div>`).join('');
+  if(window.MathJax)MathJax.typeset([c]);
+}
+function selO(qi,oi){if(answered[qi]!==undefined)return;document.querySelectorAll(`#qq-${qi} .qcm-opt`).forEach(e=>e.classList.remove('selected'));document.getElementById(`opt-${qi}-${oi}`).classList.add('selected');answered[qi]=oi;}
+function submitQCM(){
+  let sc=0,tot=curQ.length;
+  curQ.forEach((q,qi)=>{
+    const ch=answered[qi];
+    const qEl=document.getElementById(`qq-${qi}`),fb=document.getElementById(`fb-${qi}`);
+    q.opts.forEach((_,oi)=>{const el=document.getElementById(`opt-${qi}-${oi}`);el.classList.add('disabled');if(oi===q.ans)el.classList.add('correct');if(ch===oi&&ch!==q.ans)el.classList.add('wrong');});
+    if(ch===q.ans){sc++;qEl.classList.add('correct');fb.innerHTML=`✓ Correct ! ${q.exp}`;}
+    else{qEl.classList.add('wrong');fb.innerHTML=`✗ ${ch===undefined?'Non répondu. ':''}Réponse : <strong>${q.opts[q.ans]}</strong>. ${q.exp}`;}
+    fb.classList.add('active');
+  });
+  document.getElementById('sc-v').textContent=`${sc} / ${tot}`;
+  const pct=Math.round(sc/tot*100);
+  const msg=pct>=87?'EXCELLENT — MAÎTRISE COMPLÈTE':pct>=62?'BIEN — QUELQUES POINTS À CONSOLIDER':'À RETRAVAILLER — RELIRE LE COURS';
+  document.getElementById('r-sc').textContent=`${sc} / ${tot} — ${pct} %`;
+  document.getElementById('r-msg').textContent=msg;
+  document.getElementById('qcm-r').classList.add('active');
+  if(window.MathJax)MathJax.typeset([document.getElementById('qcm-r'),document.getElementById('qcm-c')]);
+  stopC();
+}
+function startC(){stopC();cPaused=false;document.getElementById('btn-c').textContent='Pause';cIntv=setInterval(()=>{if(!cPaused){cSec++;document.getElementById('c-d').textContent=`${pad2(Math.floor(cSec/60))}:${pad2(cSec%60)}`;}},1000);}
+function stopC(){clearInterval(cIntv);cIntv=null;}
+function resetC(){stopC();cSec=0;cPaused=false;document.getElementById('c-d').textContent='00:00';document.getElementById('btn-c').textContent='Pause';}
+function toggleC(){cPaused=!cPaused;document.getElementById('btn-c').textContent=cPaused?'Reprendre':'Pause';}
+newQCM();
+
+// ── SCROLL REVEAL & NAV ──────────────────────────────
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.07});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+const navLinks=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{let cur='';document.querySelectorAll('main section').forEach(s=>{if(window.scrollY>=s.offsetTop-130)cur=s.id;});navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));},{passive:true});
+</script>
+</body>
+</html>
